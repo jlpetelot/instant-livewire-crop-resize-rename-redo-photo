@@ -13,6 +13,11 @@
                         :model="auth()->user()"
                     />
                 </div>
+
+                <!-- Save image -->
+                @include('includes.save-image')
+                <!-- Save image -->
+
             </div>
         </div>
     </div>

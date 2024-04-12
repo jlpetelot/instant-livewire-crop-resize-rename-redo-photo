@@ -68,6 +68,9 @@ class UploadPhotoLivewire extends Component
         // We save the image in the correct folder.
         $image = $this->image->store('public/images/products');
 
+        // We delete the image from the livewire-tmp temporary folder.
+        unlink($this->image->getRealPath());
+
         // We check if a photo already exists in the photos table.
         $photoUrl = Photo::where('user_id', auth()->id())->first();
 
