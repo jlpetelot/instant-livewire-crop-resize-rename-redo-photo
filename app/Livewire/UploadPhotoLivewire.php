@@ -10,10 +10,6 @@ class UploadPhotoLivewire extends Component
 {
     use WithFileUploads;
 
-    /**
-     * Validation of the image by Livewire
-     */
-    #[Validate('image|max:1064')]
     // Property $image
     public $image;
 
@@ -23,11 +19,28 @@ class UploadPhotoLivewire extends Component
 
     public function updatedImage ()
     {
-        // The modal window opens by passing the Livewire view resources/views/livewire/photo-modal.blade.php as a parameter.
-        $this->dispatch('openModal', 'photo-modal', [
-            //This temporary image comes from the public property $image
-            'temporaryUrl' => $this->image->temporaryUrl(),
-        ]);
+        // We are going to retrieve the extension of the temporary image.
+        $temporaryExtension = explode('-.', $this->image->temporaryUrl());
+
+        // We break down this extension.
+        $extension = $temporaryExtension[1][0] . $temporaryExtension[1][1] . $temporaryExtension[1][2];
+
+        // If the image has one of the 3 extensions,
+        if ($extension == "jpg" || $extension == "jpe" || $extension == "png") {
+            // The modal window opens by passing the Livewire view resources/views/livewire/photo-modal.blade.php as a parameter.
+            $this->dispatch('openModal', 'photo-modal', [
+                // This temporary image comes from the public property $image
+                'temporaryUrl' => $this->image->temporaryUrl(),
+            ]);
+        }
+        // Otherwise, we return an error message.
+        else
+        {
+            session()->flash('error',"The image to upload must have a file extension of .jpg, .jpeg, or .png.");
+            return redirect()->route('photo');
+        }
+
+        return false;
     }
 
 

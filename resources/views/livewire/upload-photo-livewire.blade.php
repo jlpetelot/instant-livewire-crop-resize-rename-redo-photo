@@ -12,16 +12,31 @@
         button will provide you with a cropping tool formatted for this ratio.
     </p>
 
-
     <div class="flex items-center justify-start w-full space-x-4">
         <img src="{{ $image ? $image->temporaryUrl() : $pathfake . '/' . '1000x1500.svg' }}" class="h-auto rounded-lg w-80">
 
-        <input type="file" name="photo" id="photo" class="sr-only" wire:model="image">
+        <input type="file" name="photo" id="photo" class="sr-only" wire:model.live="image">
 
         <label for="photo" class="p-2 text-sm text-gray-500 duration-150 border border-gray-500 rounded-lg cursor-pointer hover:shadow-md hover:-translate-y-0.5">
             Click me to choose a Photo
         </label>
-
     </div>
+
+    <!-- Error message -->
+    @if (session()->has('error'))
+        <div
+            x-data="{ isOpen: true }"
+            x-show="isOpen"
+            x-init="setTimeout(() => {
+                isOpen = false
+            }, 7000)"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 transform"
+            x-transition:leave-end="opacity-0 transform"
+            class="mt-4 -mb-2 text-pink-600 border border-pink-600 rounded-lg px-2 py-1 text-center">
+            {{ session('error') }}
+        </div>
+    @endif
+    <!-- ../Error message -->
 
 </div>
