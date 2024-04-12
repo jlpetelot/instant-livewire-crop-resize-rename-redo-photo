@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Livewire\Attributes\Validate;
+use Livewire\Attributes\On;
 
 class UploadPhotoLivewire extends Component
 {
@@ -16,6 +16,16 @@ class UploadPhotoLivewire extends Component
     // Fake image path
     public $pathfake;
 
+    public string $croppedBlob;
+    // Upon clicking the crop button event, we retrieve the cropped image.
+    #[On('croppedImageReady')]
+
+    public function handleCroppedImage($croppedBlob, $cropRegions)
+    {
+        // dd($croppedBlob, $cropRegions);
+
+        $this->croppedBlob = $croppedBlob;
+    }
 
     public function updatedImage ()
     {
