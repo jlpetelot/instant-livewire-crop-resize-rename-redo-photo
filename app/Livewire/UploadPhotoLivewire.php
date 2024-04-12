@@ -21,6 +21,16 @@ class UploadPhotoLivewire extends Component
     public $pathfake;
 
 
+    public function updatedImage ()
+    {
+        // The modal window opens by passing the Livewire view resources/views/livewire/photo-modal.blade.php as a parameter.
+        $this->dispatch('openModal', 'photo-modal', [
+            //This temporary image comes from the public property $image
+            'temporaryUrl' => $this->image->temporaryUrl(),
+        ]);
+    }
+
+
     public function mount()
     {
         // Permanent loading of the public pathfake variable
