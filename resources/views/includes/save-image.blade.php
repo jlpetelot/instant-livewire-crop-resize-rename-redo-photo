@@ -10,7 +10,7 @@
 
         <input type="text"
                name="nameImage"
-               placeholder="Your image name"
+               placeholder="@if($photo->title != NULL) {{ $photo->title }} @else Your image name @endif"
                class="mt-2 py-1.5 px-4 min-w-80 block border-slate-400 rounded-lg text-sm focus:border-slate-600 focus:ring-slate-600 placeholder-gray-400">
         <button type="submit" class="mt-2 p-2 min-w-80 text-sm text-white duration-150 bg-slate-800 rounded-lg cursor-pointer hover:bg-slate-600">
             Save the photo
@@ -19,3 +19,11 @@
     </form>
 @endif
 <!-- Save image -->
+
+<!-- Adding CSS styles to center the placeholder text in the nameImage field. -->
+<style>
+    ::-webkit-input-placeholder { text-align: center }
+    :-moz-placeholder { text-align: center }
+    ::-moz-placeholder { text-align: center }
+    :-ms-input-placeholder { text-align: center }
+</style>
