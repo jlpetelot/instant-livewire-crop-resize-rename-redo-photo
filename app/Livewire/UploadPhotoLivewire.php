@@ -57,7 +57,7 @@ class UploadPhotoLivewire extends Component
         $this->store();
 
         // We go back to the current page.
-        // return redirect()->route('photo');
+        return redirect()->route('photo');
     }
 
     /**
