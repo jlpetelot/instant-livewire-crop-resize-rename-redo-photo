@@ -34,6 +34,12 @@ new class extends Component
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+
+                <!-- Route Photo -->
+                <x-nav-link :href="route('photo')" :active="request()->routeIs('photo')" wire:navigate>
+                    {{ __('Photo') }}
+                </x-nav-link>
+
             </div>
 
             <!-- Settings Dropdown -->
