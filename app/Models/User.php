@@ -44,4 +44,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // The user has only one photo.
+    public function photo ()
+    {
+        return $this->hasOne(Photo::class);
+    }
 }
