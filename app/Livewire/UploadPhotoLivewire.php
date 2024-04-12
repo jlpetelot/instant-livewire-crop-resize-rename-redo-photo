@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Photo;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
@@ -44,14 +45,45 @@ class UploadPhotoLivewire extends Component
         // We modify the image according to this ratio and resize the image.
         Image::load($this->image->getRealPath())
             // We retrieve all parameters from $croppedBlob to pass them to $cropRegions, which will crop the image
+            ->manualCrop($cropRegions['width'], $cropRegions['height'], $cropRegions['x'], $cropRegions['y'])
+            // We resize the image
             ->resize($width, $height)
             ->save();
 
         // We display the image in the browser window.
         $this->croppedBlob = $croppedBlob;
 
+        // Calling the store method
+        $this->store();
+
         // We go back to the current page.
         // return redirect()->route('photo');
+    }
+
+    /**
+     * Method store() to save the image in the correct folder and the URL path of the profile_photo_url column in the photos table
+     */
+    public function store()
+    {
+        // We save the image in the correct folder.
+        $image = $this->image->store('public/images/products');
+
+        // We check if a photo already exists in the photos table.
+        $photoUrl = Photo::where('user_id', auth()->id())->first();
+
+        // If the "url" column of the "photos" table is already filled, we update this URL.
+        if ($photoUrl) {
+            $photoUrl->url = explode('/', $image)[3];
+            // We record
+            $photoUrl->save();
+        } else {
+            // If the URL does not exist, we create a new record of this image in the photos table.
+            $photoUrl =  new Photo();
+            $photoUrl->url = explode('/', $image)[3];
+            $photoUrl->user_id = auth()->id();
+            // We record
+            $photoUrl->save();
+        }
     }
 
     public function updatedImage ()
