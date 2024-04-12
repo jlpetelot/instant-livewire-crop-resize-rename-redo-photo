@@ -115,6 +115,21 @@ class UploadPhotoLivewire extends Component
         return false;
     }
 
+    public function startagain ()
+    {
+        // We retrieve the record from the photos table.
+        $photo = Photo::where('user_id', auth()->id())->first();
+
+        // We permanently delete the cropped and resized photo that we had created in the folder storage/app/public/images
+        unlink(storage_path().'/app/public/images/products/'.$photo->url);
+
+        // We delete the record.
+        $photo->delete();
+
+        // We go back
+        return redirect()->to('/photo');
+    }
+
 
     public function mount()
     {
