@@ -108,6 +108,10 @@ class UploadPhotoLivewire extends Component
         // Otherwise, we return an error message.
         else
         {
+            // First, we delete the image from the livewire-tmp temporary folder.
+            unlink($this->image->getRealPath());
+
+            // Then, we send an error message
             session()->flash('error',"The image to upload must have a file extension of .jpg, .jpeg, or .png.");
             return redirect()->route('photo');
         }
